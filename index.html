@@ -3,334 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Pechatka | Ассортимент</title>
+    <title>3D Pechatka | Магазин</title>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --accent-color: #38bdf8;
-            --modal-bg: rgba(15, 23, 42, 0.98);
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: sans-serif;
+            background-color: #0f172a; /* Темный фон */
+            color: white;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 80px; /* Отступ для футера */
         }
 
-        header {
-            text-align: center;
-            margin: 20px 0 40px;
-        }
+        /* Список товаров */
+        .gallery { width: 100%; max-width: 400px; }
 
-        h1 { font-size: 1.8rem; letter-spacing: 1px; margin: 0; }
-        p.subtitle { color: #94a3b8; font-size: 0.9rem; margin-top: 5px; }
-
-        .gallery {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .item-card {
-            background: var(--card-bg);
-            border-radius: 20px;
+        .card {
+            background: #1e293b;
+            border-radius: 15px;
+            margin-bottom: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid #334155;
         }
 
-        .item-card:active {
-            transform: scale(0.98);
-            box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.5);
-        }
+        .card img { width: 100%; display: block; aspect-ratio: 1/1; object-fit: cover; }
 
-        .item-card img.main-img {
-            width: 100%;
-            height: auto;
-            display: block;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            background: #334155; /* Заглушка пока грузится */
-        }
+        .info { padding: 15px; display: flex; justify-content: space-between; font-weight: bold; }
 
-        .item-details {
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .item-name { font-size: 1.1rem; font-weight: 600; }
-        .item-price { color: var(--accent-color); font-weight: 800; font-size: 1.2rem; }
-
-        /* --- Стили модального окна (Галереи цветов) --- */
+        /* Всплывающее окно */
         .modal {
-            display: none; /* Скрыто по умолчанию */
+            display: none; 
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--modal-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            justify-content: center;
+            background: rgba(0,0,0,0.9);
+            flex-direction: column;
             align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-            border-radius: 30px;
-            text-align: center;
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal.show .modal-content {
-            transform: translateY(0);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px; right: 15px;
-            font-size: 2.5rem;
-            color: #64748b;
-            cursor: pointer;
-            line-height: 1;
+            justify-content: center;
             z-index: 10;
         }
 
-        .close-btn:hover { color: var(--text-color); }
+        .modal-content { width: 90%; max-width: 400px; text-align: center; }
 
-        h2#modalTitle { margin-top: 10px; margin-bottom: 5px; font-size: 1.5rem; }
-        p.modal-price { color: var(--accent-color); font-weight: 800; font-size: 1.3rem; margin: 0 0 20px 0; }
+        #bigImage { width: 100%; border-radius: 15px; border: 2px solid #38bdf8; }
 
-        /* Контейнер для изображений в модальном окне */
-        .modal-image-container {
-            width: 100%;
-            position: relative;
-            margin-bottom: 15px;
-        }
+        /* Кнопки цветов */
+        .colors { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
 
-        img#modalImage {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 15px;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
+        .dot { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 2px solid white; }
 
-        /* Кнопки переключения (стрелки) */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(2px);
-        }
-
-        .nav-btn:hover { background: rgba(0,0,0,0.8); }
-        .prev-btn { left: 10px; }
-        .next-btn { right: 10px; }
-
-        /* Переключатели цветов (кружочки) */
-        .color-switcher {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .color-dot {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .color-dot:hover { transform: scale(1.1); }
-        .color-dot.active { border-color: var(--accent-color); transform: scale(1.1); }
-
-        footer {
-            position: absolute;
-            bottom: 20px;
-            color: #475569;
-            font-size: 0.8rem;
-            text-align: center;
-            width: 100%;
-        }
+        .close { margin-top: 30px; color: #94a3b8; cursor: pointer; text-decoration: underline; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Ассортимент</h1>
-        <p class="subtitle">Нажмите на товар, чтобы выбрать цвет</p>
-    </header>
+    <h1>Ассортимент</h1>
 
     <div class="gallery">
-
-        <div class="item-card" onclick="openGallery('Змейка', '120 ₽', ['Ящерица.png', 'Змейка_синий.png', 'Змейка_красный.png', 'Змейка_зеленый.png'])">
-            <img src="Ящерица.png" alt="Змейка" class="main-img">
-            <div class="item-details">
-                <div class="item-name">Змейка</div>
-                <div class="item-price">120 ₽</div>
-            </div>
+        
+        <div class="card" onclick="openProduct('Змейка', 'Змейка_синий.png', 'Змейка_красный.png', 'Змейка_зеленый.png')">
+            <img src="Ящерица.png"> <div class="info"><span>Змейка</span><span>120 ₽</span></div>
         </div>
 
-        <div class="item-card" onclick="openGallery('Осминог', '120 ₽', ['Осмног.png', 'Осминог_синий.png', 'Осминог_красный.png', 'Осминог_зеленый.png'])">
-            <img src="Осмног.png" alt="Осминог" class="main-img">
-            <div class="item-details">
-                <div class="item-name">Осминог</div>
-                <div class="item-price">120 ₽</div>
-            </div>
+        <div class="card" onclick="openProduct('Осминог', 'Осминог_синий.png', 'Осминог_красный.png', 'Осминог_зеленый.png')">
+            <img src="Осмног.png"> <div class="info"><span>Осминог</span><span>120 ₽</span></div>
         </div>
 
-        <div class="item-card" onclick="openGallery('Скелет', '120 ₽', ['Скелет (2).png', 'Скелет_синий.png', 'Скелет_красный.png', 'Скелет_зеленый.png'])">
-            <img src="Скелет (2).png" alt="Скелет" class="main-img">
-            <div class="item-details">
-                <div class="item-name">Скелет</div>
-                <div class="item-price">120 ₽</div>
-            </div>
+        <div class="card" onclick="openProduct('Скелет', 'Скелет_синий.png', 'Скелет_красный.png', 'Скелет_зеленый.png')">
+            <img src="Скелет (2).png"> <div class="info"><span>Скелет</span><span>120 ₽</span></div>
         </div>
 
     </div>
 
-    <div id="galleryModal" class="modal" onclick="closeGallery(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-btn" onclick="closeGallery()">&times;</span>
-            <h2 id="modalTitle">Название</h2>
-            <p id="modalPrice" class="modal-price">120 ₽</p>
-
-            <div class="modal-image-container">
-                <img id="modalImage" src="" alt="Цвет товара">
-                <button class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
-                <button class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
+    <div id="box" class="modal">
+        <div class="modal-content">
+            <h2 id="name">Название</h2>
+            <img id="bigImage" src="">
+            
+            <div class="colors">
+                <div class="dot" style="background: blue;" onclick="changeImg(1)"></div>
+                <div class="dot" style="background: red;" onclick="changeImg(2)"></div>
+                <div class="dot" style="background: green;" onclick="changeImg(3)"></div>
             </div>
 
-            <div class="color-switcher">
-                <div class="color-dot active" style="background: #94a3b8;" onclick="setCurrentImage(0)"></div> <div class="color-dot" style="background: #3b82f6;" onclick="setCurrentImage(1)"></div> <div class="color-dot" style="background: #ef4444;" onclick="setCurrentImage(2)"></div> <div class="color-dot" style="background: #22c55e;" onclick="setCurrentImage(3)"></div> </div>
+            <div class="close" onclick="closeBox()">Закрыть</div>
         </div>
     </div>
-
-    <footer>
-        &copy; 2026 3D Pechatka Studio
-    </footer>
 
     <script>
-        let currentImages = []; // Текущий список картинок товара
-        let currentIndex = 0;   // Индекс текущей картинки
+        let img1, img2, img3; // Переменные для хранения путей к картинкам
 
-        // Функция открытия галереи
-        function openGallery(name, price, images) {
-            currentImages = images; // Загружаем список картинок
-            currentIndex = 0;      // Всегда начинаем с первой
+        function openProduct(title, blue, red, green) {
+            document.getElementById('name').innerText = title;
+            // Запоминаем картинки для этого товара
+            img1 = blue; 
+            img2 = red; 
+            img3 = green;
 
-            document.getElementById('modalTitle').innerText = name;
-            document.getElementById('modalPrice').innerText = price;
-            updateModalImage(); // Показать первую картинку
-
-            const modal = document.getElementById('galleryModal');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10); // Анимация появления
-            document.body.style.overflow = 'hidden'; // Запретить прокрутку сайта
+            // Сразу ставим СИНЮЮ картинку (img1)
+            document.getElementById('bigImage').src = img1;
+            document.getElementById('box').style.display = 'flex';
         }
 
-        // Функция закрытия галереи
-        function closeGallery(event) {
-            // Если клик был по фону или по кнопке закрыть
-            if (!event || event.target.id === 'galleryModal' || event.target.className === 'close-btn') {
-                const modal = document.getElementById('galleryModal');
-                modal.classList.remove('show');
-                setTimeout(() => modal.style.display = 'none', 300); // Скрыть после анимации
-                document.body.style.overflow = ''; // Вернуть прокрутку
-            }
+        function changeImg(num) {
+            if(num == 1) document.getElementById('bigImage').src = img1;
+            if(num == 2) document.getElementById('bigImage').src = img2;
+            if(num == 3) document.getElementById('bigImage').src = img3;
         }
 
-        // Обновление картинки в модальном окне
-        function updateModalImage() {
-            document.getElementById('modalImage').src = currentImages[currentIndex];
-            updateColorDots(); // Обновить активный кружочек
+        function closeBox() {
+            document.getElementById('box').style.display = 'none';
         }
-
-        // Смена картинки стрелками (-1 или 1)
-        function changeImage(direction) {
-            currentIndex += direction;
-            // "Зацикливание" галереи
-            if (currentIndex >= currentImages.length) currentIndex = 0;
-            if (currentIndex < 0) currentIndex = currentImages.length - 1;
-            updateModalImage();
-        }
-
-        // Выбор конкретной картинки кликом по кружочку
-        function setCurrentImage(index) {
-            if (index < currentImages.length) {
-                currentIndex = index;
-                updateModalImage();
-            }
-        }
-
-        // Обновление активного кружочка цвета
-        function updateColorDots() {
-            const dots = document.querySelectorAll('.color-dot');
-            dots.forEach((dot, index) => {
-                if (index === currentIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-                // Скрывать кружочки, если для них нет картинок
-                if (index >= currentImages.length) {
-                    dot.style.display = 'none';
-                } else {
-                    dot.style.display = 'block';
-                }
-            });
-        }
-
-        // Закрытие по кнопке Esc
-        document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") {
-                closeGallery();
-            }
-        });
     </script>
 </body>
 </html>
