@@ -1,15 +1,16 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Pechatka | Галерея товаров</title>
+    <title>3D Pechatka | Ассортимент</title>
     <style>
         :root {
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --text-color: #f8fafc;
             --accent-color: #38bdf8;
+            --modal-bg: rgba(15, 23, 42, 0.95);
         }
 
         body {
@@ -25,17 +26,10 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin: 20px 0 40px;
         }
 
-        header img {
-            width: 80px;
-            height: 80px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-        }
-
-        h1 { font-size: 1.4rem; margin: 0; }
+        h1 { font-size: 1.8rem; letter-spacing: 1px; }
 
         .gallery {
             width: 100%;
@@ -50,7 +44,11 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
         }
+
+        .item-card:active { transform: scale(0.98); }
 
         .item-card img {
             width: 100%;
@@ -58,7 +56,6 @@
             display: block;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            background: #334155;
         }
 
         .item-details {
@@ -68,62 +65,137 @@
             align-items: center;
         }
 
-        .item-name {
-            font-size: 1.1rem;
-            font-weight: 600;
+        .item-name { font-size: 1.1rem; font-weight: 600; }
+        .item-price { color: var(--accent-color); font-weight: 800; font-size: 1.2rem; }
+
+        /* Стили модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .item-price {
-            color: var(--accent-color);
-            font-weight: 800;
-            font-size: 1.2rem;
+        .modal-content {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 30px;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        footer {
-            margin: 40px 0;
-            color: #475569;
-            font-size: 0.8rem;
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 15px;
+            font-size: 2rem;
+            color: #64748b;
+            cursor: pointer;
+            line-height: 1;
         }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .color-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .color-name { font-size: 0.8rem; color: #94a3b8; }
+
+        footer { margin: 50px 0; color: #475569; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <header>
-        <img src="Gemini_Generated_Image_qxbsoiqxbsoiqxbs.png" alt="Logo">
         <h1>Ассортимент</h1>
     </header>
 
     <div class="gallery">
-
-        <div class="item-card">
-            <img src="Ящерица.png" alt="Товар 1">
+        <div class="item-card" onclick="openModal('Змейка', ['Зеленый', 'Красный', 'Синий'], ['#22c55e', '#000000', '#fbbf24'])">
+            <img src="Ящерица.png" alt="Змейка">
             <div class="item-details">
                 <div class="item-name">Змейка</div>
                 <div class="item-price">120 ₽</div>
             </div>
         </div>
 
-        <div class="item-card">
-            <img src="Осмног.png" alt="Товар 2">
+        <div class="item-card" onclick="openModal('Осминог', ['Зеленый', 'Красный', 'Синий'], ['#3b82f6', '#ffffff', '#ef4444'])">
+            <img src="Осмног.png" alt="Осминог">
             <div class="item-details">
                 <div class="item-name">Осминог</div>
                 <div class="item-price">120 ₽</div>
             </div>
         </div>
 
-        <div class="item-card">
-            <img src="Скелет (2).png" alt="Товар 3">
+        <div class="item-card" onclick="openModal('Скелет', ['Зеленый', 'Красный', 'Синий'], ['#ccff00', '#94a3b8'])">
+            <img src="Скелет (2).png" alt="Скелет">
             <div class="item-details">
                 <div class="item-name">Скелет</div>
                 <div class="item-price">120 ₽</div>
             </div>
         </div>
+    </div>
 
+    <div id="colorModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Цвета</h2>
+            <p style="color: #94a3b8;">Доступно для заказа:</p>
+            <div id="colorList" class="color-grid">
+                </div>
+        </div>
     </div>
 
     <footer>
         &copy; 2026 3D Pechatka Studio
     </footer>
 
+    <script>
+        function openModal(name, colors, hexes) {
+            document.getElementById('modalTitle').innerText = name;
+            const list = document.getElementById('colorList');
+            list.innerHTML = ''; // Очистить старое
+
+            colors.forEach((color, index) => {
+                const item = document.createElement('div');
+                item.className = 'color-item';
+                item.innerHTML = `
+                    <div class="color-circle" style="background-color: ${hexes[index]}"></div>
+                    <div class="color-name">${color}</div>
+                `;
+                list.appendChild(item);
+            });
+
+            document.getElementById('colorModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('colorModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
