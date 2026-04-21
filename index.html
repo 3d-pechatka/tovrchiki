@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Pechatka | Premium Showcase</title>
     <style>
-        /* 1. БАЗОВЫЕ НАСТРОЙКИ И ФОН */
         :root {
             --primary: #38bdf8;
             --bg-dark: #0f172a;
             --card-bg: #1e293b;
-            --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.1);
         }
 
@@ -28,145 +26,99 @@
 
         h1 { 
             font-size: 2.2rem;
-            font-weight: 700;
             margin: 40px 0;
             background: linear-gradient(to right, #38bdf8, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* 2. КОНТЕЙНЕР И ЖИВЫЕ КАРТОЧКИ */
-        .container { 
-            width: 100%; 
-            max-width: 480px; 
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
+        .container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 25px; }
 
         .item-card {
             background: var(--card-bg);
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid var(--border);
-            position: relative;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        /* Эффект при наведении */
-        .item-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border-color: var(--primary);
-        }
+        .item-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
-        .item-card img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            display: block;
-            transition: 0.5s;
-        }
+        .item-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
 
-        /* 3. БЛОК ЦЕНЫ И ИНФОРМАЦИИ */
         .item-info {
             padding: 20px;
-            background: linear-gradient(to top, rgba(15,23,42,0.8), transparent);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(0,0,0,0.2);
         }
 
-        .item-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
+        .item-name { font-size: 1.2rem; font-weight: 600; }
 
-        /* Выделенная рамка над ценой */
         .price-tag {
             background: rgba(56, 189, 248, 0.1);
             border: 1px solid var(--primary);
             color: var(--primary);
-            padding: 6px 16px;
-            border-radius: 12px;
+            padding: 5px 15px;
+            border-radius: 10px;
             font-weight: 800;
-            font-size: 1.1rem;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
         }
 
-        /* 4. УЛУЧШЕННОЕ МОДАЛЬНОЕ ОКНО */
+        /* МОДАЛКА */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 20px;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.3s ease;
         }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal-content {
             background: #1e293b;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             padding: 25px;
-            border-radius: 32px;
+            border-radius: 30px;
             text-align: center;
             border: 1px solid var(--border);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
 
         #modalImg {
             width: 100%;
-            border-radius: 20px;
-            margin: 20px 0;
-            border: 1px solid var(--border);
-            transition: 0.3s;
+            border-radius: 15px;
+            margin: 15px 0;
+            border: 2px solid var(--primary);
         }
 
-        /* Селектор цветов */
-        .color-selector {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+        .color-selector { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
 
         .dot {
             width: 40px;
             height: 40px;
-            border-radius: 14px; /* Квадратные со скруглением выглядят современнее */
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .dot:hover { transform: translateY(-3px); }
-        .dot.active { border-color: white; box-shadow: 0 0 15px var(--primary); }
-
-        .close-btn {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            color: #94a3b8;
-            padding: 10px 24px;
             border-radius: 12px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.3s;
+            border: 2px solid transparent;
+            transition: 0.2s;
         }
 
-        .close-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .dot.active { border-color: white; transform: scale(1.1); box-shadow: 0 0 10px var(--primary); }
 
+        .close-btn {
+            background: none;
+            border: 1px solid #475569;
+            color: #94a3b8;
+            padding: 8px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -176,7 +128,7 @@
     <div class="container">
         
         <div class="item-card" onclick="showProduct('Змейка', 'Ящерица.png', 'Ящерица_красная.png', 'Ящерица_зеленая.png')">
-            <img src="Ящерица.png" alt="Product">
+            <img src="Ящерица.png">
             <div class="item-info">
                 <span class="item-name">Змейка</span>
                 <div class="price-tag">120 ₽</div>
@@ -184,7 +136,7 @@
         </div>
 
         <div class="item-card" onclick="showProduct('Осминог', 'Осмног.png', 'Осминог_красный.png', 'Осминог_зеленый.png')">
-            <img src="Осмног.png" alt="Product">
+            <img src="Осмног.png">
             <div class="item-info">
                 <span class="item-name">Осминог</span>
                 <div class="price-tag">120 ₽</div>
@@ -192,7 +144,7 @@
         </div>
 
         <div class="item-card" onclick="showProduct('Скелет', 'Скелет (2).png', 'Скелет_красный.png', 'Скелет_зеленый.png')">
-            <img src="Скелет (2).png" alt="Product">
+            <img src="Скелет (2).png">
             <div class="item-info">
                 <span class="item-name">Скелет</span>
                 <div class="price-tag">120 ₽</div>
@@ -203,11 +155,11 @@
 
     <div id="productModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 id="modalName" style="margin: 0; font-size: 1.5rem;">Название</h2>
-            <img id="modalImg" src="" alt="View">
+            <h2 id="modalName" style="margin:0">Название</h2>
+            <img id="modalImg" src="">
             
             <div class="color-selector">
-                <div class="dot" style="background: #3b82f6;" onclick="setImg(0, this)"></div>
+                <div class="dot active" style="background: #3b82f6;" onclick="setImg(0, this)"></div>
                 <div class="dot" style="background: #ef4444;" onclick="setImg(1, this)"></div>
                 <div class="dot" style="background: #22c55e;" onclick="setImg(2, this)"></div>
             </div>
@@ -219,25 +171,27 @@
     <script>
         let currentPhotos = [];
 
-        function showProduct(name, img1, img2, img3) {
-            currentPhotos = [img1, img2, img3];
+        function showProduct(name, blue, red, green) {
+            // Записываем пути к фото
+            currentPhotos = [blue, red, green];
             document.getElementById('modalName').innerText = name;
             
-            // Сброс активной точки и установка первой картинки
+            // Сбрасываем активную точку на синий (первый)
             const dots = document.querySelectorAll('.dot');
             dots.forEach(d => d.classList.remove('active'));
             dots[0].classList.add('active');
 
-            setImg(0, dots[0]);
-            
+            // Показываем модалку и ставим синее фото
+            document.getElementById('modalImg').src = currentPhotos[0];
             document.getElementById('productModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Запрет прокрутки
+            document.body.style.overflow = 'hidden';
         }
 
         function setImg(index, el) {
+            // Меняем фото по клику на точку
             document.getElementById('modalImg').src = currentPhotos[index];
             
-            // Переключение рамки у точек
+            // Управляем активным классом точек
             const dots = document.querySelectorAll('.dot');
             dots.forEach(d => d.classList.remove('active'));
             el.classList.add('active');
@@ -246,3 +200,9 @@
         function closeModal(e) {
             if (!e || e.target.id === 'productModal' || e.target.className === 'close-btn') {
                 document.getElementById('productModal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>
