@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мои Товары | Каталог</title>
+    <title>3D Pechatka | Каталог</title>
     <style>
         :root {
             --bg-color: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.05);
             --text-color: #f8fafc;
             --accent-color: #38bdf8;
         }
@@ -30,11 +30,11 @@
         }
 
         header img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-color);
+            width: 120px;
+            height: 120px;
+            border-radius: 20px; /* Скругленные углы под стиль логотипа */
             margin-bottom: 15px;
+            object-fit: cover;
         }
 
         h1 { font-size: 1.5rem; margin-bottom: 5px; }
@@ -61,19 +61,19 @@
 
         .product-card:active {
             transform: scale(0.97);
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .product-img {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: #1e293b;
             border-radius: 10px;
             margin-right: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         .product-info { text-align: left; }
@@ -87,39 +87,39 @@
 
     <div class="container">
         <header>
-            <img src="https://via.placeholder.com/100" alt="Logo">
-            <h1>Название Магазина</h1>
-            <p>Выбирайте лучшее из нашего каталога</p>
+            <img src="https://r.jina.ai/i/9e000407f6be4e6eb9da932267f815be" alt="3D Pechatka Logo">
+            <h1>3D Pechatka Studio</h1>
+            <p>Печать из PETG, 3D моделирование и дизайн</p>
         </header>
 
         <div class="product-list">
-            <a href="https://t.me/your_username" class="product-card">
+            <a href="#" class="product-card">
+                <div class="product-img">🦊</div>
+                <div class="product-info">
+                    <h3>Подвижные фигурки</h3>
+                    <span>от 350 ₽</span>
+                </div>
+            </a>
+
+            <a href="#" class="product-card">
+                <div class="product-img">⌚</div>
+                <div class="product-info">
+                    <h3>Держатель для зарядки</h3>
+                    <span>600 ₽</span>
+                </div>
+            </a>
+
+            <a href="https://avito.ru" class="product-card" style="border-color: var(--accent-color);">
                 <div class="product-img">📦</div>
                 <div class="product-info">
-                    <h3>Товар Название</h3>
-                    <span>1 500 ₽</span>
-                </div>
-            </a>
-
-            <a href="https://t.me/your_username" class="product-card">
-                <div class="product-img">🛠️</div>
-                <div class="product-info">
-                    <h3>Услуга Моделирования</h3>
-                    <span>от 500 ₽</span>
-                </div>
-            </a>
-
-            <a href="https://avito.ru/your_profile" class="product-card" style="border-color: var(--accent-color);">
-                <div class="product-img">📱</div>
-                <div class="product-info">
-                    <h3>Мы на Avito</h3>
-                    <span>Смотреть отзывы</span>
+                    <h3>Заказать на Avito</h3>
+                    <span>Посмотреть все товары</span>
                 </div>
             </a>
         </div>
 
         <footer>
-            &copy; 2026 Твой Бренд. Сделано для NFC/QR.
+            &copy; 2026 3D Pechatka. Отсканируйте для заказа.
         </footer>
     </div>
 
