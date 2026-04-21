@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Pechatka | Каталог</title>
+    <title>3D Pechatka | Галерея товаров</title>
     <style>
         :root {
             --bg-color: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: #1e293b;
             --text-color: #f8fafc;
             --accent-color: #38bdf8;
         }
@@ -17,111 +17,113 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 450px;
+        header {
             text-align: center;
+            margin-bottom: 30px;
         }
 
         header img {
-            width: 120px;
-            height: 120px;
-            border-radius: 20px; /* Скругленные углы под стиль логотипа */
-            margin-bottom: 15px;
-            object-fit: cover;
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            margin-bottom: 10px;
         }
 
-        h1 { font-size: 1.5rem; margin-bottom: 5px; }
-        p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 30px; }
+        h1 { font-size: 1.4rem; margin: 0; }
 
-        .product-list {
+        .gallery {
+            width: 100%;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 25px;
         }
 
-        .product-card {
+        .item-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .item-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            background: #334155;
+        }
+
+        .item-details {
             padding: 15px;
-            text-decoration: none;
-            color: white;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s, background 0.2s;
         }
 
-        .product-card:active {
-            transform: scale(0.97);
-            background: rgba(255, 255, 255, 0.15);
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
-        .product-img {
-            width: 50px;
-            height: 50px;
-            background: #1e293b;
-            border-radius: 10px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .item-price {
+            color: var(--accent-color);
+            font-weight: 800;
             font-size: 1.2rem;
         }
 
-        .product-info { text-align: left; }
-        .product-info h3 { margin: 0; font-size: 1.1rem; }
-        .product-info span { font-size: 0.85rem; color: var(--accent-color); font-weight: bold; }
-
-        footer { margin-top: 50px; font-size: 0.8rem; color: #475569; }
+        footer {
+            margin: 40px 0;
+            color: #475569;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <img src="https://r.jina.ai/i/9e000407f6be4e6eb9da932267f815be" alt="3D Pechatka Logo">
-            <h1>3D Pechatka Studio</h1>
-            <p>Печать из PETG, 3D моделирование и дизайн</p>
-        </header>
+    <header>
+        <img src="https://r.jina.ai/i/9e000407f6be4e6eb9da932267f815be" alt="Logo">
+        <h1>Наши работы</h1>
+    </header>
 
-        <div class="product-list">
-            <a href="#" class="product-card">
-                <div class="product-img">🦊</div>
-                <div class="product-info">
-                    <h3>Подвижные фигурки</h3>
-                    <span>от 350 ₽</span>
-                </div>
-            </a>
+    <div class="gallery">
 
-            <a href="#" class="product-card">
-                <div class="product-img">⌚</div>
-                <div class="product-info">
-                    <h3>Держатель для зарядки</h3>
-                    <span>600 ₽</span>
-                </div>
-            </a>
-
-            <a href="https://avito.ru" class="product-card" style="border-color: var(--accent-color);">
-                <div class="product-img">📦</div>
-                <div class="product-info">
-                    <h3>Заказать на Avito</h3>
-                    <span>Посмотреть все товары</span>
-                </div>
-            </a>
+        <div class="item-card">
+            <img src="photo1.jpg" alt="Товар 1">
+            <div class="item-details">
+                <div class="item-name">Название товара 1</div>
+                <div class="item-price">1 200 ₽</div>
+            </div>
         </div>
 
-        <footer>
-            &copy; 2026 3D Pechatka. Отсканируйте для заказа.
-        </footer>
+        <div class="item-card">
+            <img src="photo2.jpg" alt="Товар 2">
+            <div class="item-details">
+                <div class="item-name">Название товара 2</div>
+                <div class="item-price">850 ₽</div>
+            </div>
+        </div>
+
+        <div class="item-card">
+            <img src="photo3.jpg" alt="Товар 3">
+            <div class="item-details">
+                <div class="item-name">Название товара 3</div>
+                <div class="item-price">2 500 ₽</div>
+            </div>
+        </div>
+
     </div>
+
+    <footer>
+        &copy; 2026 3D Pechatka Studio
+    </footer>
 
 </body>
 </html>
